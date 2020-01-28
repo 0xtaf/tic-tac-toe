@@ -1,0 +1,15 @@
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(3,160px);       
+    height: 480px;
+
+    
+}
+
+.grid-container > div{
+    text-align: center;
+    font-size: 30px;
+    border: 2px dashed #f69c55;
+    align-items: center;
+    padding: 40%;
+}

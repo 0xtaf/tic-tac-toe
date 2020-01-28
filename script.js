@@ -6,13 +6,14 @@ const Control = (() => {
     goFirst.addEventListener('click', changeTurn1);
     goSecond.addEventListener('click', changeTurn2);
     let turn = "player";
+
     goFirst.style.backgroundColor = "grey";
 
     function clean(){
         if (goFirst.style.backgroundColor == "grey"){
             turn = "player";
         } else if (goSecond.style.backgroundColor == "grey") {
-            turn = "cpu";
+            turn = "player2";
         }
         startButton.disabled = true;
         startButton.className = "inactive";
@@ -29,7 +30,7 @@ const Control = (() => {
 
     function changeTurn1(){
         console.log("now turn is: "+turn);
-        if (turn == "cpu") {
+        if (turn == "player2") {
         flowControl.changeTurn();
         }
         goFirst.style.backgroundColor = "grey";
@@ -43,7 +44,7 @@ const Control = (() => {
         }
         goSecond.style.backgroundColor = "grey";
         goFirst.style.backgroundColor = "#c62d1f";
-        turn = "cpu";
+        turn = "player2";
     }
 
     return{turn,goFirst,goSecond,startButton};
@@ -54,15 +55,15 @@ const Player = (name,marker) => {
 };
 
 const Gb = (() => {
-    const r1c1 = document.getElementById(1); 
-    const r1c2 = document.getElementById(2); 
-    const r1c3 = document.getElementById(3); 
-    const r2c1 = document.getElementById(4); 
-    const r2c2 = document.getElementById(5); 
-    const r2c3 = document.getElementById(6);
-    const r3c1 = document.getElementById(7); 
-    const r3c2 = document.getElementById(8); 
-    const r3c3 = document.getElementById(9);
+    const r1c1 = document.getElementById(0); 
+    const r1c2 = document.getElementById(1); 
+    const r1c3 = document.getElementById(2); 
+    const r2c1 = document.getElementById(3); 
+    const r2c2 = document.getElementById(4); 
+    const r2c3 = document.getElementById(5);
+    const r3c1 = document.getElementById(6); 
+    const r3c2 = document.getElementById(7); 
+    const r3c3 = document.getElementById(8);
  
     let gbArray = [[r1c1,r1c2,r1c3],[r2c1,r2c2,r2c2],[r3c1,r3c2,r3c3]];
     return {gbArray, r1c1, r1c2, r1c3, r2c1, r2c2, r2c3, r3c1, r3c2, r3c3};
@@ -70,7 +71,7 @@ const Gb = (() => {
 })();
 
 const flowControl = (function controlTheFlow() {
-    const grids = document.querySelectorAll('.gameboard');
+    const grids = [...document.querySelectorAll('.gameboard')];
     const winner = document.querySelector('.winner');
     winner.textContent = "Welcome!";
     document.body.insertBefore(winner, document.body.firstChild);
@@ -79,37 +80,67 @@ const flowControl = (function controlTheFlow() {
     });
 
     const player1 = Player("ahmet", "X");
-    const player2 = Player("cpu", "O");
+    const player2 = Player("player2", "O");
     
 
  function changeTurn(){
-        if (Control.turn == "cpu"){ 
+        if (Control.turn == "player2"){ 
             Control.turn = "player";
             console.log("turn has changed to: "+Control.turn);
         }else if(Control.turn == "player"){
-            Control.turn = "cpu";
+            Control.turn = "player2";
             console.log("turn has changed to: "+Control.turn);
         }
      }
     
    
-    function play(){
+    // function play(){
 
-        console.log("control turn "+ Control.turn +" idi")
+    //     console.log("control turn "+ Control.turn +" idi")
+    //     if (this.textContent == ""){
+    //         if (Control.turn == "player"){
+    //             this.textContent = player1.marker;   
+    //             Control.turn = "cpu";
+    //         } else if (Control.turn == "cpu"){
+    //             this.textContent = player2.marker;   
+    //             Control.turn = "player";
+    //         }   
+    //         winningCondition();
+    //     } 
+    //     console.log("control turn "+ Control.turn +" oldu")
+    // }
+     let myArray = [0,1,2,3,4,5,6,7,8];
+     function play(){
+        let cpuGrid;
+        let condition = false;
+        console.log("id"+this.id);
         if (this.textContent == ""){
             if (Control.turn == "player"){
-                this.textContent = player1.marker;   
-                Control.turn = "cpu";
-            } else if (Control.turn == "cpu"){
-                this.textContent = player2.marker;   
-                Control.turn = "player";
-            }   
-            winningCondition();
-        } 
-        console.log("control turn "+ Control.turn +" oldu")
-    }
-    
-
+                this.textContent = player1.marker;
+                winningCondition();
+              
+                myArray.splice(myArray.indexOf(Number(this.id)),1);
+                console.log(myArray);
+            }
+        
+            while (condition == false){
+                cpuGrid = Math.floor(Math.random()*myArray.length);
+                console.log("secilen cpu grid indexi: "+cpuGrid);
+                
+                if (grids[myArray[cpuGrid]].textContent == ""){                    
+                    condition = true;     
+                    grids[myArray[cpuGrid]].textContent = player2.marker;
+                    myArray.splice(myArray.indexOf(myArray[cpuGrid]),1);
+                    console.log(myArray);
+                    condition = false;
+                    break;           
+                } else {
+                    condition = false;
+                    
+                }
+            }
+        }
+     }
 
     function winningCondition(){
         function changeCond(){

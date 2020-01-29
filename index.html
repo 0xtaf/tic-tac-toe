@@ -1,19 +1,17 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-    <title>Tic-Tac-Toe</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" rel="stylesheet">
+  <title>Tic Tac Toe</title>
+  
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" rel="stylesheet">
+
 </head>
+
 <body>
-    <div class="controller">
-        <button class="start_button red">Start</button>
-        <button class="playfirst_button">Go First</button>
-        <button class="playsecond_button">Go Second</button>
-    </div>
-    <div class="winner"></div>
-    <br><br>
-    <div class="grid-container">
+
+	<div class="grid-container">
         <div class="gameboard" id="0"></div>
         <div class="gameboard" id="1"></div>
         <div class="gameboard" id="2"></div>
@@ -24,8 +22,16 @@
         <div class="gameboard" id="7"></div>
         <div class="gameboard" id="8"></div>
     </div>
-    <script src="script.js"></script>
+	<div class="endgame">
+		<div class="text"></div>
+	</div>
+    <div class = "symbol">
+    <p>Select symbol:</p>
+      <button onClick="symbol('X')">X</button>
+      <button onClick="symbol('O')">O</button>
+    </div>
+	<button class="startGame" onClick="startGame()">Replay</button>
+
+  <script src="script.js"></script>
 </body>
-
-
 </html>

@@ -10,6 +10,15 @@ const Control = (() => {
     goFirst.style.backgroundColor = "grey";
 
     function clean(){
+        flowControl.controlTheFlow();
+        flowControl.myArray = [0,1,2,3,4,5,6,7,8];
+        flowControl.winner.textContent = "Welcome!";
+        flowControl.grids.forEach(grid => {
+            console.log("before "+grid.textContent);
+            grid.textContent = "";
+            console.log("after " +grid.textContent);
+        });
+        
         if (goFirst.style.backgroundColor == "grey"){
             turn = "player";
         } else if (goSecond.style.backgroundColor == "grey") {
@@ -20,10 +29,7 @@ const Control = (() => {
         goFirst.disabled = true;
         goSecond.disabled = true;
 
-        flowControl.grids.forEach (grid => {
-            grid.textContent = "";
-            flowControl.winner.textContent = "Welcome!";        
-        });
+   
         
         // flowControl.controlTheFlow();
     }
@@ -71,6 +77,7 @@ const Gb = (() => {
 })();
 
 const flowControl = (function controlTheFlow() {
+    console.log("flowkontrol yuklendi");
     const grids = [...document.querySelectorAll('.gameboard')];
     const winner = document.querySelector('.winner');
     winner.textContent = "Welcome!";
@@ -93,27 +100,15 @@ const flowControl = (function controlTheFlow() {
         }
      }
     
-   
-    // function play(){
 
-    //     console.log("control turn "+ Control.turn +" idi")
-    //     if (this.textContent == ""){
-    //         if (Control.turn == "player"){
-    //             this.textContent = player1.marker;   
-    //             Control.turn = "cpu";
-    //         } else if (Control.turn == "cpu"){
-    //             this.textContent = player2.marker;   
-    //             Control.turn = "player";
-    //         }   
-    //         winningCondition();
-    //     } 
-    //     console.log("control turn "+ Control.turn +" oldu")
-    // }
-     let myArray = [0,1,2,3,4,5,6,7,8];
-     function play(){
+    myArray = [0,1,2,3,4,5,6,7,8];
+    
+    function play(){
+        
         let cpuGrid;
         let condition = false;
         console.log("id"+this.id);
+        console.log("myarray = " + myArray);
         if (this.textContent == ""){
             if (Control.turn == "player"){
                 this.textContent = player1.marker;
@@ -127,20 +122,23 @@ const flowControl = (function controlTheFlow() {
                 cpuGrid = Math.floor(Math.random()*myArray.length);
                 console.log("secilen cpu grid indexi: "+cpuGrid);
                 
-                if (grids[myArray[cpuGrid]].textContent == ""){                    
-                    condition = true;     
-                    grids[myArray[cpuGrid]].textContent = player2.marker;
-                    myArray.splice(myArray.indexOf(myArray[cpuGrid]),1);
-                    console.log(myArray);
-                    condition = false;
-                    break;           
+                if (myArray.length != 0){ 
+                    if (grids[myArray[cpuGrid]].textContent == ""){                    
+                        condition = true;     
+                        grids[myArray[cpuGrid]].textContent = player2.marker;
+                        myArray.splice(myArray.indexOf(myArray[cpuGrid]),1);
+                        console.log(myArray);
+                        condition = false;
+                        break;           
+                    } else {
+                        condition = false;
+                    }
                 } else {
-                    condition = false;
-                    
+                    break;
                 }
             }
         }
-     }
+    }
 
     function winningCondition(){
         function changeCond(){
@@ -186,6 +184,6 @@ const flowControl = (function controlTheFlow() {
         
     }
     
-    return {grids, winner, controlTheFlow,changeTurn};
+    return {grids, winner, controlTheFlow,changeTurn,play,myArray};
 
 })();
